@@ -208,9 +208,12 @@ function init_install(){
 	chmod +x /root/.aria2/OneIndexupload.sh
 	bash /etc/init.d/aria2 start
 }
+function end(){
+	echo -e "搭建完成："
+	echo -e "Aria2Ng访问地址：http://${IPAddress}:8081"
+	echo -e "OneIndex后台地址：https://${IPAddress}/?/admin"
+}
 function main(){
-	check_system
-	sleep 2
     sudo yum update -y
 	sudo yum install wget unzip net-tools bc curl -y
 	sudo yum update nss curl iptables -y
@@ -241,6 +244,22 @@ function main(){
 	iptables-save >/etc/sysconfig/iptables
 	echo 'iptables-restore /etc/sysconfig/iptables' >> /etc/rc.local
 	sed -i "s#SELINUX=enforcing#SELINUX=disabled#" /etc/selinux/config
-	init_install       
+	init_install  
+    end	
 }
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
+ulimit -c 0
+rm -rf script*
+clear
+check_system
+sleep 2
+echo -e "\033[31m#############################################################\033[0m"
+echo -e "\033[32m#欢迎使用Aria2+Aria2Ng+OneIndex一键安装脚本 for Centos 7.x  #\033[0m"
+echo -e "\033[33m#                                                           #\033[0m"
+echo -e "\033[34m#Blog: http://blog.67cc.cn/                                 #\033[0m"
+echo -e "\033[33m#                                                           #\033[0m"
+echo -e "\033[32m#                                   支持   Centos  7.x  系统#\033[0m"
+echo -e "\033[31m#############################################################\033[0m"
+echo
 main
