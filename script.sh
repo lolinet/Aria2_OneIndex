@@ -61,7 +61,7 @@ function aria2ng_install(){
     fi
 }
 function nginx_conf_add(){
-        cat > ${nginx_conf_dir}/aria2ng.conf <<EOF
+        cat > /etc/nginx/conf.d/aria2ng.conf <<EOF
 server {
     listen 8081;
     server_name _;
@@ -76,7 +76,7 @@ server {
         }
 }
 EOF
-	cat > ${nginx_conf_dir}/OneIndex.conf <<EOF
+	cat > /etc/nginx/conf.d/OneIndex.conf <<EOF
 server {
         listen 80;
         index index.html index.php;
@@ -216,6 +216,7 @@ function main(){
 	sudo yum install wget unzip net-tools bc curl -y
 	sudo yum update nss curl iptables -y
 	standard
+	rm -rf /etc/nginx/conf.d/default.conf
 	nginx_conf_add
 	service nginx start
 	systemctl enable nginx.service
