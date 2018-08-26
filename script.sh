@@ -34,9 +34,7 @@ function domain_check(){
 	 fi
 	 echo -e "你的IP为：${IPAddress}"
      stty erase '^H' && read -p "请输入你的Aria2密钥:" pass	 
-	 stty erase '^H' && read -p "请输入你OneDrive中的一个文件夹（格式:RATS，此后所有文件都会上传到该文件夹, 没有请先在OneDrive中新建）:" folder
-	 folder = ${folder:-"folder"}
-	 pass=${pass:-"12345"}	 
+	 stty erase '^H' && read -p "请输入你OneDrive中的一个文件夹（格式:RATS，此后所有文件都会上传到该文件夹, 没有请先在OneDrive中新建）:" folder	 
 }
 
 function OneIndex_install(){
@@ -171,13 +169,6 @@ function aria_install(){
 	allow-overwrite=true
 	bt-tracker=udp://tracker.coppersurfer.tk:6969/announce,udp://tracker.open-internet.nl:6969/announce,udp://p4p.arenabg.com:1337/announce,udp://tracker.internetwarriors.net:1337/announce,udp://allesanddro.de:1337/announce,udp://9.rarbg.to:2710/announce,udp://tracker.skyts.net:6969/announce,udp://tracker.safe.moe:6969/announce,udp://tracker.piratepublic.com:1337/announce,udp://tracker.opentrackr.org:1337/announce,udp://tracker2.christianbro.pw:6969/announce,udp://tracker1.wasabii.com.tw:6969/announce,udp://tracker.zer0day.to:1337/announce,udp://public.popcorn-tracker.org:6969/announce,udp://tracker.xku.tv:6969/announce,udp://tracker.vanitycore.co:6969/announce,udp://inferno.demonoid.pw:3418/announce,udp://tracker.mg64.net:6969/announce,udp://open.facedatabg.net:6969/announce,udp://mgtracker.org:6969/announce" > /root/.aria2/aria2.conf
 }
-function standard(){
-    domain_check
-
-    OneIndex_install
-    aria2ng_install
-	
-}
 function install_web(){
 	sudo rpm -Uvh http://nginx.org/packages/centos/7/x86_64/RPMS/nginx-1.8.1-1.el7.ngx.x86_64.rpm
     sudo yum install -y nginx
@@ -207,6 +198,13 @@ function init_install(){
 	sed -i '4i\folder='${folder}'' OneIndexupload.sh
 	chmod +x /root/.aria2/OneIndexupload.sh
 	bash /etc/init.d/aria2 start
+}
+function standard(){
+    domain_check
+    install_web
+    OneIndex_install
+    aria2ng_install
+	
 }
 function end(){
 	echo -e "搭建完成："
