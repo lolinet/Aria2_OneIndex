@@ -34,7 +34,9 @@ function domain_check(){
 	 fi
 	 echo -e "你的IP为：${IPAddress}"
      stty erase '^H' && read -p "请输入你的Aria2密钥:" pass	 
-	 stty erase '^H' && read -p "请输入你OneIndex/OneDrive中的一个文件夹（格式:RATS，此后所有文件都会上传到该文件夹）:" folder
+	 stty erase '^H' && read -p "请输入你OneDrive中的一个文件夹（格式:RATS，此后所有文件都会上传到该文件夹, 没有请先在OneDrive中新建）:" folder
+	 folder = ${folder:-"folder"}
+	 pass=${pass:-"12345"}	 
 }
 
 function OneIndex_install(){
@@ -51,7 +53,7 @@ function OneIndex_install(){
     fi
 }
 function aria2ng_install(){
-    mkdir -p /home/wwwroot/aria2ng && cd /home/wwwroot/aria2ng && wget ${aria2ng_download_http} && unzip aria-ng-${aria2ng_new_ver}.zip
+    mkdir -p /home/wwwroot/aria2ng && cd /home/wwwroot/aria2ng && wget https://raw.githubusercontent.com/marisn2017/Aria2_OneIndex/master/aria-ng-0.3.0.zip && unzip aria-ng-0.3.0.zip
 	if [[ $? -eq 0 ]];then
         echo -e "AriaNg 下载成功"
         sleep 1
@@ -110,65 +112,64 @@ EOF
 }
 
 function aria_install(){
-echo -e "开始安装Aria2"
-yum install build-essential cron -y
-yum -y install bzip2
-cd /root
-mkdir Download
-wget -N --no-check-certificate "https://github.com/q3aql/aria2-static-builds/releases/download/v1.34.0/aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2"
-Aria2_Name="aria2-1.34.0-linux-gnu-64bit-build1"
-tar jxvf "aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2"
-mv "aria2-1.34.0-linux-gnu-64bit-build1" "aria2"
-cd "aria2/"
-make install
-cd /root
-rm -rf aria2 aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2
-mkdir "/root/.aria2" && cd "/root/.aria2"
-wget "https://raw.githubusercontent.com/chiakge/Aria2-Rclone-DirectoryLister-Aria2Ng/master/sh/dht.dat"
-wget "https://raw.githubusercontent.com/chiakge/Aria2-Rclone-DirectoryLister-Aria2Ng/master/sh/trackers-list-aria2.sh"
-echo '' > /root/.aria2/aria2.session
-chmod +x /root/.aria2/trackers-list-aria2.sh
-chmod 777 /root/.aria2/aria2.session
-echo "dir=/root/Download
-rpc-secret=${pass}
+	echo -e "开始安装Aria2"
+	yum install build-essential cron -y
+	yum -y install bzip2
+	cd /root
+	mkdir Download
+	wget -N --no-check-certificate "https://github.com/q3aql/aria2-static-builds/releases/download/v1.34.0/aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2"
+	Aria2_Name="aria2-1.34.0-linux-gnu-64bit-build1"
+	tar jxvf "aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2"
+	mv "aria2-1.34.0-linux-gnu-64bit-build1" "aria2"
+	cd "aria2/"
+	make install
+	cd /root
+	rm -rf aria2 aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2
+	mkdir "/root/.aria2" && cd "/root/.aria2"
+	wget "https://raw.githubusercontent.com/chiakge/Aria2-Rclone-DirectoryLister-Aria2Ng/master/sh/dht.dat"
+	wget "https://raw.githubusercontent.com/chiakge/Aria2-Rclone-DirectoryLister-Aria2Ng/master/sh/trackers-list-aria2.sh"
+	echo '' > /root/.aria2/aria2.session
+	chmod +x /root/.aria2/trackers-list-aria2.sh
+	chmod 777 /root/.aria2/aria2.session
+	echo "dir=/root/Download
+	rpc-secret=${pass}
 
 
-disk-cache=32M
-file-allocation=trunc
-continue=true
+	disk-cache=32M
+	file-allocation=trunc
+	continue=true
 
 
-max-concurrent-downloads=10
-max-connection-per-server=5
-min-split-size=10M
-split=20
-max-overall-upload-limit=10K
-disable-ipv6=false
-input-file=/root/.aria2/aria2.session
-save-session=/root/.aria2/aria2.session
+	max-concurrent-downloads=10
+	max-connection-per-server=5
+	min-split-size=10M
+	split=20
+	max-overall-upload-limit=10K
+	disable-ipv6=false
+	input-file=/root/.aria2/aria2.session
+	save-session=/root/.aria2/aria2.session
 
-enable-rpc=true
-rpc-allow-origin-all=true
-rpc-listen-all=true
-rpc-listen-port=6800
+	enable-rpc=true
+	rpc-allow-origin-all=true
+	rpc-listen-all=true
+	rpc-listen-port=6800
 
 
 
-follow-torrent=true
-listen-port=51413
-enable-dht=true
-enable-dht6=false
-dht-listen-port=6881-6999
-bt-enable-lpd=true
-enable-peer-exchange=true
-peer-id-prefix=-TR2770-
-user-agent=Transmission/2.77
-seed-time=0
-bt-seed-unverified=true
-on-download-complete=/root/.aria2/autoupload.sh
-allow-overwrite=true
-bt-tracker=udp://tracker.coppersurfer.tk:6969/announce,udp://tracker.open-internet.nl:6969/announce,udp://p4p.arenabg.com:1337/announce,udp://tracker.internetwarriors.net:1337/announce,udp://allesanddro.de:1337/announce,udp://9.rarbg.to:2710/announce,udp://tracker.skyts.net:6969/announce,udp://tracker.safe.moe:6969/announce,udp://tracker.piratepublic.com:1337/announce,udp://tracker.opentrackr.org:1337/announce,udp://tracker2.christianbro.pw:6969/announce,udp://tracker1.wasabii.com.tw:6969/announce,udp://tracker.zer0day.to:1337/announce,udp://public.popcorn-tracker.org:6969/announce,udp://tracker.xku.tv:6969/announce,udp://tracker.vanitycore.co:6969/announce,udp://inferno.demonoid.pw:3418/announce,udp://tracker.mg64.net:6969/announce,udp://open.facedatabg.net:6969/announce,udp://mgtracker.org:6969/announce" > /root/.aria2/aria2.conf
-sed -i "s#SELINUX=enforcing#SELINUX=disabled#" /etc/selinux/config
+	follow-torrent=true
+	listen-port=51413
+	enable-dht=true
+	enable-dht6=false
+	dht-listen-port=6881-6999
+	bt-enable-lpd=true
+	enable-peer-exchange=true
+	peer-id-prefix=-TR2770-
+	user-agent=Transmission/2.77
+	seed-time=0
+	bt-seed-unverified=true
+	on-download-complete=/root/.aria2/autoupload.sh
+	allow-overwrite=true
+	bt-tracker=udp://tracker.coppersurfer.tk:6969/announce,udp://tracker.open-internet.nl:6969/announce,udp://p4p.arenabg.com:1337/announce,udp://tracker.internetwarriors.net:1337/announce,udp://allesanddro.de:1337/announce,udp://9.rarbg.to:2710/announce,udp://tracker.skyts.net:6969/announce,udp://tracker.safe.moe:6969/announce,udp://tracker.piratepublic.com:1337/announce,udp://tracker.opentrackr.org:1337/announce,udp://tracker2.christianbro.pw:6969/announce,udp://tracker1.wasabii.com.tw:6969/announce,udp://tracker.zer0day.to:1337/announce,udp://public.popcorn-tracker.org:6969/announce,udp://tracker.xku.tv:6969/announce,udp://tracker.vanitycore.co:6969/announce,udp://inferno.demonoid.pw:3418/announce,udp://tracker.mg64.net:6969/announce,udp://open.facedatabg.net:6969/announce,udp://mgtracker.org:6969/announce" > /root/.aria2/aria2.conf
 }
 function standard(){
     domain_check
@@ -198,12 +199,11 @@ function install_web(){
 }
 function init_install(){
 	echo -e "开始配置Aria2自启和自动上传"
-	wget --no-check-certificate https://www.moerats.com/usr/shell/Aria2/aria2 -O /etc/init.d/aria2
+	wget --no-check-certificate https://raw.githubusercontent.com/marisn2017/Aria2_OneIndex/master/aria2 -O /etc/init.d/aria2
 	chmod +x /etc/init.d/aria2
 	update-rc.d -f aria2 defaults
 	cd /root/.aria2
-	wget https://www.moerats.com/usr/shell/OneIndexupload.sh
-	sed -i '4i\domain='${IPAddress}'' OneIndexupload.sh
+	wget --no-check-certificate https://raw.githubusercontent.com/marisn2017/Aria2_OneIndex/master/OneIndexupload.sh
 	sed -i '4i\folder='${folder}'' OneIndexupload.sh
 	chmod +x /root/.aria2/OneIndexupload.sh
 	bash /etc/init.d/aria2 start
@@ -223,8 +223,12 @@ function main(){
 	aria_install
 	yum -y install vixie-cron crontabs
 	rm -rf /var/spool/cron/root
-	echo "0 3 */7 * * /root/.aria2/trackers-list-aria2.sh
-	*/5 * * * * /usr/sbin/service aria2 start" >> /var/spool/cron/root
+	echo 'SHELL=/bin/bash' >> /var/spool/cron/root
+	echo 'PATH=/sbin:/bin:/usr/sbin:/usr/bin' >> /var/spool/cron/root
+	echo '0 3 */7 * * /root/.aria2/trackers-list-aria2.sh' >> /var/spool/cron/root
+	echo '*/5 * * * * /usr/sbin/service aria2 start' >> /var/spool/cron/root
+	echo '0 * * * * /home/wwwroot/OneIndex/php /home/wwwroot/OneIndex/one.php token:refresh' >> /var/spool/cron/root
+	echo "*/10 * * * * /home/wwwroot/OneIndex/php /home/wwwroot/OneIndex/one.php cache:refresh" >> /var/spool/cron/root
 	service crond restart
 	#iptables
 	systemctl stop firewalld.service #停止firewall
@@ -236,6 +240,7 @@ function main(){
 	iptables-save >/etc/sysconfig/iptables
 	iptables-save >/etc/sysconfig/iptables
 	echo 'iptables-restore /etc/sysconfig/iptables' >> /etc/rc.local
+	sed -i "s#SELINUX=enforcing#SELINUX=disabled#" /etc/selinux/config
 	init_install       
 }
 main
