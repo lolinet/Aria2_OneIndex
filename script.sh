@@ -176,6 +176,9 @@ function end(){
 	echo -e "Aria2Ng访问地址：http://${IPAddress}:8081/"
 	echo -e "OneIndex后台地址：http://${IPAddress}/?/admin"
 	echo -e "OneIndex后台后台默认密码：oneindex"
+	echo -e "\n五秒后将重启系统，请等待系统重启...\n"
+	sleep 5s
+	reboot now
 }
 function main(){
     sudo yum update -y
