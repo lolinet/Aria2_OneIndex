@@ -11,13 +11,13 @@ filepath=$path
 path=${path%/*}; 
 if [ "$path" = "$downloadpath" ] && [ $2 -eq 1 ]  #如果下载的是单个文件
     then
-    php /home/wwwroot/OneIndex/one.php upload:file $filepath /
+    php /home/wwwroot/OneIndex/one.php upload:file $filepath 
     rm -rf $filepath
     php /home/wwwroot/OneIndex/one.php cache:refresh
     exit 0
 elif [ "$path" = "$downloadpath" ]   #文件夹
     then
-    php /home/wwwroot/OneIndex/one.php upload:folder $filepath /
+    php /home/wwwroot/OneIndex/one.php upload:folder $filepath 
     rm -rf "$filepath/"
     php /home/wwwroot/OneIndex/one.php cache:refresh
     exit 0
