@@ -34,7 +34,7 @@ function domain_check(){
 	 fi
 	 echo -e "你的IP为：${IPAddress}"
      stty erase '^H' && read -p "请输入你的Aria2密钥:" pass	 
-	 stty erase '^H' && read -p "请输入你OneDrive中的一个文件夹（格式:RATS，此后所有文件都会上传到该文件夹, 没有请先在OneDrive中新建）:" folder	 
+	 stty erase '^H' && read -p "请输入你OneDrive中的一个文件夹（格式:Folder，此后所有文件都会上传到该文件夹, 没有请先在OneDrive中新建）:" folder	 
 }
 
 function OneIndex_install(){
