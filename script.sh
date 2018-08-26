@@ -172,8 +172,10 @@ function standard(){
 }
 function end(){
 	echo -e "搭建完成："
-	echo -e "Aria2Ng访问地址：http://${IPAddress}:8081"
-	echo -e "OneIndex后台地址：https://${IPAddress}/?/admin"
+	echo -e "OneIndex前端地址：http://${IPAddress}/"
+	echo -e "Aria2Ng访问地址：http://${IPAddress}:8081/"
+	echo -e "OneIndex后台地址：http://${IPAddress}/?/admin"
+	echo -e "OneIndex后台后台默认密码：oneindex"
 }
 function main(){
     sudo yum update -y
