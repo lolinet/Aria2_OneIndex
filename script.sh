@@ -61,46 +61,10 @@ function aria2ng_install(){
     fi
 }
 function nginx_conf_add(){
-        cat > /etc/nginx/conf.d/aria2ng.conf <<EOF
-server {
-    listen 8081;
-    server_name _;
-    root /home/wwwroot/aria2ng;
-    index index.html index.php;        
-    #添加php支持
-        location ~ .php {
-                fastcgi_pass   127.0.0.1:9000;
-                fastcgi_index  index.php;
-                fastcgi_param SCRIPT_FILENAME /home/wwwroot/aria2ng/$fastcgi_script_name;
-                include fastcgi_params;
-        }
-}
-EOF
-	cat > /etc/nginx/conf.d/OneIndex.conf <<EOF
-server {
-        listen 80;
-        index index.html index.php;
-        location / {
-                index index.html;
-                root /home/wwwroot/OneIndex;
-                #实现PHP伪静态
-                try_files $uri /index.php?$args;
-        }
-
-        # You may need this to prevent return 404 recursion.
-        location = /404.html {
-                internal;
-        }
-        #添加php支持
-        location ~ .php {
-                fastcgi_pass   127.0.0.1:9000;
-                fastcgi_index  index.php;
-                fastcgi_param SCRIPT_FILENAME /home/wwwroot/OneIndex/$fastcgi_script_name;
-                include fastcgi_params;
-        }
-}
-EOF
-    if [[ $? -eq 0 ]];then
+    rm -rf /etc/nginx/conf.d/default.conf
+    wget -N -P  /etc/nginx/conf.d/ --no-check-certificate "https://raw.githubusercontent.com/marisn2017/Aria2_OneIndex/master/OneIndex.conf"
+    wget -N -P  /etc/nginx/conf.d/ --no-check-certificate "https://raw.githubusercontent.com/marisn2017/Aria2_OneIndex/master/aria2ng.conf"
+	if [[ $? -eq 0 ]];then
         echo -e "nginx 配置导入成功"
         sleep 1
     else
@@ -216,7 +180,6 @@ function main(){
 	sudo yum install wget unzip net-tools bc curl -y
 	sudo yum update nss curl iptables -y
 	standard
-	rm -rf /etc/nginx/conf.d/default.conf
 	nginx_conf_add
 	service nginx start
 	systemctl enable nginx.service
