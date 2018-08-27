@@ -33,7 +33,8 @@ function domain_check(){
 	 stty erase '^H' && read -p "IP地址自动获取失败，请输入:" IPAddress
 	 fi
 	 echo -e "你的IP为：${IPAddress}"
-     stty erase '^H' && read -p "请输入你的Aria2密钥:" pass	 }
+     stty erase '^H' && read -p "请输入你的Aria2密钥:" pass	 
+}
 
 function OneIndex_install(){
     yum install git -y
