@@ -30,10 +30,10 @@ function check_system(){
 function domain_check(){
      IPAddress = `wget http://members.3322.org/dyndns/getip -O - -q ; echo`;
 	 if [${IPAddress} = ""];then
-	 stty erase '^H' && read -p "IP地址自动获取失败，请输入:" IPAddress
+	 read -p "IP地址自动获取失败，请输入:" IPAddress
 	 fi
 	 echo -e "你的IP为：${IPAddress}"
-     stty erase '^H' && read -p "请输入你的Aria2密钥:" pass	 
+     read -p "请输入你的Aria2密钥:" pass	 
 }
 
 function OneIndex_install(){
@@ -198,8 +198,10 @@ function main(){
 	echo '0 * * * * /home/wwwroot/OneIndex/php /home/wwwroot/OneIndex/one.php token:refresh' >> /var/spool/cron/root
 	echo "*/10 * * * * /home/wwwroot/OneIndex/php /home/wwwroot/OneIndex/one.php cache:refresh" >> /var/spool/cron/root
 	service crond restart
-	systemctl stop firewalld.service #停止firewall
-    systemctl disable firewalld.service #禁止firewall开机启动
+	#停止firewall
+	systemctl stop firewalld.service 
+	#禁止firewall开机启动
+    systemctl disable firewalld.service 
 	#iptables
 	iptables -F
 	iptables -X  
