@@ -37,7 +37,8 @@ function domain_check(){
 }
 
 function OneIndex_install(){
-    yum install git -y
+    sudo yum install git -y
+	sudo yum update nss curl iptables -y
     mkdir -p /home/wwwroot/OneIndex && cd /home/wwwroot/OneIndex
 	git clone https://github.com/donwa/oneindex.git && mv ./oneindex/* /home/wwwroot/OneIndex
     chmod 777 ./config && chmod 777 ./cache
@@ -182,7 +183,6 @@ function main(){
     standard
     #sudo yum update -y
 	sudo yum install wget unzip net-tools bc curl -y
-	sudo yum update nss curl iptables -y
 	nginx_conf_add
 	service nginx start
 	systemctl enable nginx.service
@@ -227,7 +227,7 @@ echo -e "\033[33m#                                                           #\0
 echo -e "\033[32m#                                   支持   Centos  7.x  系统#\033[0m"
 echo -e "\033[31m#############################################################\033[0m"
 echo
-read -p "请回车确认安装:" make_sure
+read -p "请回车确认安装" make_sure
 if [${make_sure}];then
 main
-if
+fi
