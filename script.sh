@@ -178,10 +178,10 @@ function end(){
 	reboot now
 }
 function main(){
-    sudo yum update -y
+    standard
+    #sudo yum update -y
 	sudo yum install wget unzip net-tools bc curl -y
 	sudo yum update nss curl iptables -y
-	standard
 	nginx_conf_add
 	service nginx start
 	systemctl enable nginx.service
