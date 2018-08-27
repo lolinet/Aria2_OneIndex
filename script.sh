@@ -37,8 +37,8 @@ function domain_check(){
 }
 
 function OneIndex_install(){
-    sudo yum install git -y
-	sudo yum update nss curl iptables -y
+    yum install git -y
+	yum update nss curl iptables -y
     mkdir -p /home/wwwroot/OneIndex && cd /home/wwwroot/OneIndex
 	git clone https://github.com/donwa/oneindex.git && mv ./oneindex/* /home/wwwroot/OneIndex
     chmod 777 ./config && chmod 777 ./cache
@@ -134,15 +134,15 @@ function aria_install(){
 	bt-tracker=udp://tracker.coppersurfer.tk:6969/announce,udp://tracker.open-internet.nl:6969/announce,udp://p4p.arenabg.com:1337/announce,udp://tracker.internetwarriors.net:1337/announce,udp://allesanddro.de:1337/announce,udp://9.rarbg.to:2710/announce,udp://tracker.skyts.net:6969/announce,udp://tracker.safe.moe:6969/announce,udp://tracker.piratepublic.com:1337/announce,udp://tracker.opentrackr.org:1337/announce,udp://tracker2.christianbro.pw:6969/announce,udp://tracker1.wasabii.com.tw:6969/announce,udp://tracker.zer0day.to:1337/announce,udp://public.popcorn-tracker.org:6969/announce,udp://tracker.xku.tv:6969/announce,udp://tracker.vanitycore.co:6969/announce,udp://inferno.demonoid.pw:3418/announce,udp://tracker.mg64.net:6969/announce,udp://open.facedatabg.net:6969/announce,udp://mgtracker.org:6969/announce" > /root/.aria2/aria2.conf
 }
 function install_web(){
-	sudo rpm -Uvh http://nginx.org/packages/centos/7/x86_64/RPMS/nginx-1.8.1-1.el7.ngx.x86_64.rpm
-    sudo yum install -y nginx
-	sudo yum -y remove php*
-	sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm 
-	sudo rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
-	sudo yum -y install php71w php71w-fpm
-	sudo yum -y install php71w-mbstring php71w-common php71w-gd php71w-mcrypt
-	sudo yum -y install php71w-mysql php71w-xml php71w-cli php71w-devel
-	sudo yum -y install php71w-pecl-memcached php71w-pecl-redis php71w-opcache
+	rpm -Uvh http://nginx.org/packages/centos/7/x86_64/RPMS/nginx-1.8.1-1.el7.ngx.x86_64.rpm
+    yum install -y nginx
+	yum -y remove php*
+	rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm 
+	rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+	yum -y install php71w php71w-fpm
+	yum -y install php71w-mbstring php71w-common php71w-gd php71w-mcrypt
+	yum -y install php71w-mysql php71w-xml php71w-cli php71w-devel
+	yum -y install php71w-pecl-memcached php71w-pecl-redis php71w-opcache
 	if [[ $? -eq 0 ]];then
         echo -e "nginx+php 安装成功"
         sleep 1
@@ -164,7 +164,7 @@ function init_install(){
 }
 function standard(){
     domain_check
-	sudo yum install zip unzip net-tools bc curl -y
+	yum install zip unzip net-tools bc curl -y
     install_web
     OneIndex_install
     aria2ng_install
@@ -182,7 +182,7 @@ function end(){
 }
 function main(){
     standard
-    #sudo yum update -y
+    #yum update -y
 	nginx_conf_add
 	service nginx start
 	systemctl enable nginx.service
