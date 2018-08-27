@@ -230,6 +230,10 @@ echo -e "\033[32m#                                   支持   Centos  7.x  系�
 echo -e "\033[31m#############################################################\033[0m"
 echo
 read -p "请回车确认安装" make_sure
-if [${make_sure}];then
+make_sure=${make_sure:-"Yes"}
+if [${make_sure} = "Yes"];then
 main
+else
+echo -e "不回车，那我退出咯..."
+exit 0;
 fi
