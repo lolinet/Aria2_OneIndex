@@ -75,7 +75,7 @@ function nginx_conf_add(){
 
 function aria_install(){
 	echo -e "开始安装Aria2"
-	yum install build-essential cron -y
+	yum install build-essential cron unzip zip -y
 	yum -y install bzip2
 	cd /root
 	mkdir Download
