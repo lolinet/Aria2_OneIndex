@@ -29,7 +29,7 @@ function check_system(){
 
 function domain_check(){
      IPAddress = `wget http://members.3322.org/dyndns/getip -O - -q ; echo`;
-	 if [${IPAddress} = ""];then
+	 if [[ ${IPAddress} = "" ]];then
 	 read -p "IP地址自动获取失败，请输入:" IPAddress
 	 fi
 	 echo -e "你的IP为：${IPAddress}"
@@ -231,7 +231,7 @@ echo -e "\033[31m#############################################################\0
 echo
 read -p "请回车确认安装" make_sure
 make_sure=${make_sure:-"Yes"}
-if [${make_sure} = "Yes"];then
+if [[ ${make_sure} = "Yes" ]];then
 main
 else
 echo -e "不回车，那我退出咯..."
