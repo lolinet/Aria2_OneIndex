@@ -197,9 +197,9 @@ function main(){
 	echo '0 * * * * /home/wwwroot/OneIndex/php /home/wwwroot/OneIndex/one.php token:refresh' >> /var/spool/cron/root
 	echo "*/10 * * * * /home/wwwroot/OneIndex/php /home/wwwroot/OneIndex/one.php cache:refresh" >> /var/spool/cron/root
 	service crond restart
-	#iptables
 	systemctl stop firewalld.service #停止firewall
     systemctl disable firewalld.service #禁止firewall开机启动
+	#iptables
 	iptables -F
 	iptables -X  
 	iptables -I INPUT -p tcp -m tcp --dport 22:65535 -j ACCEPT
