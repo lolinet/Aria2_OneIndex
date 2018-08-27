@@ -75,7 +75,7 @@ function nginx_conf_add(){
 
 function aria_install(){
 	echo -e "开始安装Aria2"
-	yum install build-essential cron unzip zip -y
+	yum install build-essential cron -y
 	yum -y install bzip2
 	cd /root
 	mkdir Download
@@ -164,6 +164,7 @@ function init_install(){
 }
 function standard(){
     domain_check
+	sudo yum install zip unzip net-tools bc curl -y
     install_web
     OneIndex_install
     aria2ng_install
@@ -182,7 +183,6 @@ function end(){
 function main(){
     standard
     #sudo yum update -y
-	sudo yum install wget unzip net-tools bc curl -y
 	nginx_conf_add
 	service nginx start
 	systemctl enable nginx.service
