@@ -156,7 +156,7 @@ function init_install(){
 	echo -e "开始配置Aria2自启和自动上传"
 	wget --no-check-certificate https://raw.githubusercontent.com/marisn2017/Aria2_OneIndex/master/aria2 -O /etc/init.d/aria2
 	chmod +x /etc/init.d/aria2
-	update-rc.d -f aria2 defaults
+	echo 'bash /etc/init.d/aria2 start' >> /etc/rc.local
 	cd /root/.aria2
 	wget --no-check-certificate https://raw.githubusercontent.com/marisn2017/Aria2_OneIndex/master/OneIndexupload.sh
 	chmod +x /root/.aria2/OneIndexupload.sh
