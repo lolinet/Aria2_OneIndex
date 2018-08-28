@@ -195,8 +195,8 @@ function main(){
 	echo 'PATH=/sbin:/bin:/usr/sbin:/usr/bin' >> /var/spool/cron/root
 	echo '0 3 */7 * * /root/.aria2/trackers-list-aria2.sh' >> /var/spool/cron/root
 	echo '*/5 * * * * /usr/sbin/service aria2 start' >> /var/spool/cron/root
-	echo '0 * * * * /home/wwwroot/OneIndex/php /home/wwwroot/OneIndex/one.php token:refresh' >> /var/spool/cron/root
-	echo "*/10 * * * * /home/wwwroot/OneIndex/php /home/wwwroot/OneIndex/one.php cache:refresh" >> /var/spool/cron/root
+	echo '0 * * * * php /home/wwwroot/OneIndex/one.php token:refresh' >> /var/spool/cron/root
+	echo "*/10 * * * * php /home/wwwroot/OneIndex/one.php cache:refresh" >> /var/spool/cron/root
 	service crond restart
 	#停止firewall
 	systemctl stop firewalld.service 
