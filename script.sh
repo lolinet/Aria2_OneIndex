@@ -194,7 +194,7 @@ function main(){
 	echo 'SHELL=/bin/bash' >> /var/spool/cron/root
 	echo 'PATH=/sbin:/bin:/usr/sbin:/usr/bin' >> /var/spool/cron/root
 	echo '0 3 */7 * * /root/.aria2/trackers-list-aria2.sh' >> /var/spool/cron/root
-	echo '*/5 * * * * /usr/sbin/service aria2 start' >> /var/spool/cron/root
+	echo '0 0 * * * bash /etc/init.d/aria2 restart' >> /var/spool/cron/root
 	echo '0 * * * * php /home/wwwroot/OneIndex/one.php token:refresh' >> /var/spool/cron/root
 	echo "*/10 * * * * php /home/wwwroot/OneIndex/one.php cache:refresh" >> /var/spool/cron/root
 	service crond restart
